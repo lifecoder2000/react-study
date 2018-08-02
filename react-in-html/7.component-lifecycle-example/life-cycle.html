@@ -1,0 +1,100 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>생명 주기 메소드</title>
+        <script src="https://unpkg.com/react@15.3.2/dist/react.js"></script>
+        <script src="https://unpkg.com/react-dom@15.3.2/dist/react-dom.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    </head>
+    <body>
+       <!-- 크롬에서 콘솔창 확인 -->
+        <div id="container"></div>
+        <script type="text/babel">
+            let Counter = React.createClass({
+                render : function(){
+                    let textStyle = {
+                        fontSize : 72,
+                        fontFamily : "sans-seif",
+                        color : "#333",
+                        fontWeight : "bold"
+                    };
+                    return(
+                        <div style={textStyle}>
+                            {this.props.display}
+                        </div>
+                    );
+                } 
+            });
+            let CounterParent = React.createClass({
+                getDefaultProps : function(){
+                    console.log("getDefaultProps : Default prop time!");
+                    return {};
+                },
+                getInitialState : function(){
+                    console.log("getInitialState : Default state time!");
+                    return{
+                        count : 0
+                    };
+                },
+                increase : function(){
+                    this.setState({
+                        count : this.state.count += 1 
+                    });
+                },
+                componentWillUpdate : function(newProps, newState){
+                    console.log("componentWillUpdate : Component is about to update!");  
+                },
+                componentDidUpdate : function(currentProps, currentState){
+                    console.log("componentDidUpdate : Component just updated!");    
+                },
+                componentWillMount : function(){
+                    console.log("componentWillMount : Component is about to mount!");
+                },
+                componentDidMount : function(){
+                    console.log("componentDidMount : Component just mounted!");
+                },
+                componentWillUnmount : function(){
+                    console.log("componentWillUnmount : Component is about to be removed from the DOM!");
+                },
+                shouldComponentUpdate : function(newProps, newState){
+                    console.log("shouldComponentUpdate : Should component update?");    
+                    if(newState.count < 5){
+                        console.log("shouldComponentUpdate : Component should update!");    
+                        return true;
+                    }else{
+                        ReactDOM.unmountComponentAtNode(document.querySelector('#container'));
+                        console.log("shouldComponentUpdate : Component should not update!");    
+                        return false;
+                    }
+                },
+                componentWillReceiveProps : function(newProps){
+                    console.log("componentWillReceiveProps : Component will get new props!");      
+                },
+                render : function(){
+                    let backgroundstyle = {
+                        padding : 50,
+                        border : "#333 2px dotted",
+                        width : 250,
+                        height : 100,
+                        borderRadius : 10,
+                        textAlign : "center"
+                    };
+                    return(
+                        <div style={backgroundstyle}>
+                            <Counter display={this.state.count}/>
+                            <button onClick={this.increase}>
+                                +
+                            </button>
+                        </div>
+                    );
+                }
+            });
+            ReactDOM.render(
+                <div>
+                    <CounterParent/>
+                </div>,
+                document.querySelector("#container")
+            );
+        </script>
+    </body>
+</html>

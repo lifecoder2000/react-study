@@ -1,0 +1,100 @@
+<!--
+react에서 상태란?
+  사용자와 상호작용 결과로 컴포넌트의 어떤 부분이 변경되거나 서버로부터 데이터를 가져오고나 그 밖의 무수한 많은 종류의 일들이 있을 것이다. 변경될 수 있는 데이터를 저장을 할 줄 알아야 하는데 그 데이터를 상태라고 함.
+  
+  
+getInitialState : 이 메소드는 컴포넌트가 마운트되기 전에 실행되며 컴포넌트의 state 객체를 변경할 수 있게 해준다.
+
+componentDidMount : 이 메소드는 컴포넌트가 렌더링(또는 마운트)된 후에 실행된다.
+ 
+setState : 이 메소드는 state 객체의 값을 갱신할 수 있게 해준다.  
+  
+-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>State Handling</title>
+        <script src="https://unpkg.com/react@15.3.2/dist/react.js"></script>
+        <script src="https://unpkg.com/react-dom@15.3.2/dist/react-dom.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    </head>
+    <body>
+        <div id="container"></div>
+        <script type="text/babel">
+            let LightningCounter = React.createClass({
+                getInitialState : function(){
+                    return{
+                        strikes : 0  
+                    };
+                },
+                timerTick : function(){
+                    /*
+                    if(this.state.strikes >= 5000){
+                        alert('다시 시작');
+                        this.state.strikes = -100;
+                    }
+                    */
+                    this.setState({
+                        strikes : this.state.strikes + 100 
+                    });
+                },
+                componentDidMount : function(){
+                    setInterval(this.timerTick, 1000);  
+                },
+                render : function(){
+                    let counterstyle = {
+                        color : "#66FFFF",
+                        fontSize : 50
+                    };
+                    let count = this.state.strikes.toLocaleString();
+                    return(
+                        <h1 style={counterstyle}>{count}</h1>
+                    );
+                } 
+            });
+            let LightningCounterDisplay = React.createClass({
+                render : function(){
+                    let commonStyle = {
+                        margin : 0,
+                        padding : 0
+                    };
+                    let divStyle = {
+                        width : 250,
+                        textAlign : "center",
+                        backgroundColor : "#020202",
+                        padding : 40,
+                        fontFamily : "sans-seif",
+                        color : "#999999",
+                        borderRadius : 10
+                    };
+                    let textStyles = {
+                        emphasis : {
+                            fontSize : 38,
+                            ...commonStyle
+                        },
+                        smallEmphasis : {
+                            ...commonStyle
+                        },
+                        small : {
+                            fontSize : 17,
+                            opacity : 0.5,
+                            ...commonStyle
+                        }
+                    };
+                    return(
+                        <div style={divStyle}>
+                            <LightningCounter/>
+                            <h2 style={textStyles.smallEmphasis}>LIGHTNING STRIKES</h2>
+                            <h2 style={textStyles.emphasis}>WORLDWIDE</h2>
+                            <p style={textStyles.small}>(since you loaded this example)</p>
+                        </div>
+                    );
+                }
+            });
+            ReactDOM.render(
+                <LightningCounterDisplay/>,
+                document.querySelector("#container")
+            );
+        </script>
+    </body>
+</html>

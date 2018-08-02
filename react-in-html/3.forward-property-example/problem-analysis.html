@@ -1,0 +1,110 @@
+<!--
+
+## 현재 아래와 같은 코드는 
+# ReactDOM.render() -> [component]Shirt -> [component]Label -> [component]Display
+## 즉, 모든 컴포넌트들이 각 속성에 접근하고 재정의해 전달하는 것 이다.(끔찍)
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>콘텐츠 스타일링</title>
+    <script src="https://unpkg.com/react@15.3.2/dist/react.js"></script>
+    <script src="https://unpkg.com/react-dom@15.3.2/dist/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script type="text/babel">
+      let Display = React.createClass({
+         render : function(){
+             return(
+                <div>
+                    <p>{this.props.color}</p>
+                    <p>{this.props.num}</p>
+                    <p>{this.props.size}</p>
+                </div>
+             );
+         } 
+      });
+      let Label = React.createClass({
+         render : function(){
+             return(
+                <Display color={this.props.color} num={this.props.num} size={this.props.size}>
+                </Display>
+             );
+         } 
+      });
+      
+      let Shirt = React.createClass({
+         render : function(){
+             return(
+                <Label color={this.props.color} num={this.props.num} size={this.props.size}>
+                    
+                </Label>
+             );
+         } 
+      });
+      ReactDOM.render(
+        <div>
+              <Shirt color="steelblue" num="3.14" size="medium"></Shirt>
+        </div>,
+        document.querySelector("#container")
+      );
+    </script>
+  </body>
+</html>
+-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Spread Operator</title>
+        <script src="https://unpkg.com/react@15.3.2/dist/react.js"></script>
+        <script src="https://unpkg.com/react-dom@15.3.2/dist/react-dom.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    </head>
+    <body>
+    <div id="container"></div>
+    <script type="text/babel">
+      // ...배열이름 같은 형태는 es6에서 지원하는 스프레드 연산자이다.
+      let Display = React.createClass({
+         render : function(){
+             return(
+                <div>
+                    <p>{this.props.color}</p>
+                    <p>{this.props.num}</p>
+                    <p>{this.props.size}</p>
+                </div>
+             );
+         } 
+      });
+      let Label = React.createClass({
+         render : function(){
+             return(
+                <Display {...this.props}/>
+             );
+         } 
+      });
+      
+      let Shirt = React.createClass({
+         render : function(){
+             return(
+                <Label {...this.props}/>
+             );
+         } 
+      });
+      let Swatch = <Shirt color="steelblue" num="3.14" size="medium"></Shirt>;
+      ReactDOM.render(
+        <div>
+              {Swatch}
+              {/*자식으로서의 주석*/}
+        </div>,
+        document.querySelector("#container")
+      );
+    </script>
+  </body>
+</html>
+
+
+
+
