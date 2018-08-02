@@ -15,7 +15,7 @@ Link : <https://reactjs.org/>
 
 *'JSX'란?*
 ----------
-쉽게 자바스크립트와 HTML 태그를 합쳐 사용자 인터페이스의 요소와 기능을 정의할 수 있다.
+쉽게 자바스크립트와 HTML 태그를 합쳐 사용자 인터페이스의 요소와 기능을 정의할 수 있다.<br>
 Link : <https://reactjs.org/docs/introducing-jsx.html>
 
 *'babel'이란?*
